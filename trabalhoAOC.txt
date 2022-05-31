@@ -1,0 +1,49 @@
+limpar_tela:
+    mov dh,00 // 100
+    mov dl,00 // 102
+    mov bh,00 // 104
+    mov ah,02 // 106
+    int 10 // 108
+
+    mov ah,09 // 10A
+    mov al,20 // 10C
+    mov bl,0f // 10E
+    mov cx,50 // 110
+    int 10 // 113
+
+    inc dh // 115
+    cmp dh,19 // 117
+    jnz 106 // 11A
+    int 10 // 11C
+
+posicionar_cursor_top:
+    mov dh,00 // 11C
+    mov ah,02
+    int 10
+
+escrever_nibis:
+    mov ah,09
+    mov al,23
+    mov cx,01
+    int 10
+
+verificar_buffer_teclado:
+    mov ah 00
+    int 10
+
+verificar_direita:
+    cmp al,27
+    jnz verificar_esquerda
+    cmp dh,19
+    jnz verificar_esquerda
+
+    mov al,20
+    mov ah,09
+    int 10
+
+    mov al,23
+    mov ah,09
+    int 10
+
+verificar_esquerda:
+
