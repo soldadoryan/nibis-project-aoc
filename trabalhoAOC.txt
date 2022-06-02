@@ -17,33 +17,83 @@ limpar_tela:
     int 10 // 11C
 
 posicionar_cursor_top:
-    mov dh,00 // 11C
-    mov ah,02
-    int 10
+    mov dh,00 // 11E
+    mov ah,02 // 120
+    int 10 // 122
 
 escrever_nibis:
-    mov ah,09
-    mov al,23
-    mov cx,01
-    int 10
+    mov ah,09 // 124
+    mov al,23 // 126
+    mov cx,01 // 128
+    int 10 // 12B
 
 verificar_buffer_teclado:
-    mov ah 00
-    int 10
+    mov ah 00 // 12D
+    int 16h // 12F
 
 verificar_direita:
-    cmp al,27
-    jnz verificar_esquerda
-    cmp dh,19
-    jnz verificar_esquerda
+    cmp al,64 // 131
+    jnz 149
+    mov al,20 // 13A
+    mov ah,09 // 13C
+    int 10 // 13E
 
+    inc dl // 140
+    mov ah,02 // 142
+    int 10 // 144
+    mov al,23 // 146
+    mov ah,09 // 148
+    int 10 // 14A
+    jmp 12D // 14C
+
+
+verificar_esquerda:
+    cmp al,61
+    jnz 161
     mov al,20
     mov ah,09
     int 10
 
+    dec dl
+    mov ah,02
+    int 10
     mov al,23
     mov ah,09
     int 10
+    jmp 12D
 
-verificar_esquerda:
+verificar_baixo:
+    cmp al,73
+    jnz 179
+    mov al,20
+    mov ah,09
+    int 10
 
+    inc dh
+    mov ah,02
+    int 10
+    mov al,23
+    mov ah,09
+    int 10
+    jmp 12D
+
+verificar_cima:
+    cmp al,77
+    jnz 191
+    mov al,20
+    mov ah,09
+    int 10
+
+    dec dh
+    mov ah,02
+    int 10
+    mov al,23
+    mov ah,09
+    int 10
+    jmp 12D
+
+verificar_esc:
+    cmp al,1B
+    jnz 12D
+    int 10
+    int 20
